@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resposta Secreta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            font-size: 18px;
+        }
+        #secretInput {
+            color: transparent;
+            text-shadow: 0 0 0 gray;
+            caret-color: black;
+        }
+    </style>
+</head>
+<body>
+    <h2>Digite o seu pedido</h2>
+    <input type="text" id="secretInput" placeholder="" maxlength="18">
+    <p>*Por favor responda</p>
+    <h2>Agora, faça sua pergunta</h2>
+    <input type="text" id="questionInput" placeholder="Digite sua pergunta">
+    <button onclick="showSecret()">Enviar</button>
+    <p id="answer"></p>
+    
+    <script>
+        let secretAnswer = "";
+        const displayText = "Por favor responda";
+        
+        document.getElementById("secretInput").addEventListener("input", function(event) {
+            let realValue = event.target.getAttribute("data-real") || "";
+            realValue += event.data || "";
+            event.target.setAttribute("data-real", realValue);
+            
+            let length = realValue.length;
+            event.target.value = displayText.substring(0, length);
+        });
+
+        function showSecret() {
+            let question = document.getElementById("questionInput").value;
+            let secretInput = document.getElementById("secretInput");
+            let storedAnswer = secretInput.getAttribute("data-real") || "";
+            
+            if (question.trim() !== "" && storedAnswer.trim() !== "") {
+                document.getElementById("answer").textContent = "Resposta: " + storedAnswer;
+            } else {
+                document.getElementById("answer").textContent = "Por favor, insira uma pergunta e uma resposta válida.";
+            }
+        }
+    </script>
+</body>
+</html>
